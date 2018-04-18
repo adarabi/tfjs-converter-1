@@ -30,6 +30,7 @@ import * as normalization from './op_list/normalization.json';
 import * as reduction from './op_list/reduction.json';
 import * as sliceJoin from './op_list/slice_join.json';
 import * as transformation from './op_list/transformation.json';
+import * as image from './op_list/image.json';
 import {Graph, Node, OpMapper} from './types';
 
 const CONTROL_FLOW_OPS = ['Switch', 'Merge', 'Enter', 'Exit', 'Next'];
@@ -51,7 +52,8 @@ export class OperationMapper {
       ...(logical as {}) as OpMapper[], ...(graph as {}) as OpMapper[],
       ...(matrices as {}) as OpMapper[], ...(normalization as {}) as OpMapper[],
       ...(reduction as {}) as OpMapper[], ...(sliceJoin as {}) as OpMapper[],
-      ...(transformation as {}) as OpMapper[]
+      ...(transformation as {}) as OpMapper[],
+      ...(image as {}) as OpMapper[]
     ];
     this.opMappers = mappersJson.reduce<{[key: string]: OpMapper}>(
         (map, mapper: OpMapper) => {

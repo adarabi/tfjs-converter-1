@@ -27,7 +27,7 @@ export let executeOp: OpExecutor =
     (node: Node, tensorMap: NamedTensorsMap): tfc.Tensor[] => {
       switch (node.op) {
         case 'resizeBilinear': {
-          const images = getParamValue('images', node, tensorMap) as tfc.Tensor;
+          const images = getParamValue('image', node, tensorMap) as tfc.Tensor;
           const size = getParamValue('size', node, tensorMap) as number[];
           const alignCorners =
               getParamValue('alignCorners', node, tensorMap) as boolean;
