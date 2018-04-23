@@ -63,6 +63,18 @@ export let executeOp: OpExecutor = (node: Node, tensorMap: NamedTensorsMap):
           getParamValue('filter', node, tensorMap) as tfc.Tensor4D, shape,
           [stride[1], stride[2]], pad as 'valid' | 'same')];
     }
+    case 'conv2DBackpropInput': {
+      const shape =
+          getParamValue(
+              'outputShape', node, tensorMap) as [number, number, number] |
+          [number, number, number, number];
+      const stride = getParamValue('strides', node, tensorMap) as number[];
+      const pad = getParamValue('pad', node, tensorMap);
+      return [tfc.conv2dTranspose(
+          getParamValue('x', node, tensorMap) as tfc.Tensor3D | tfc.Tensor4D,
+          getParamValue('filter', node, tensorMap) as tfc.Tensor4D, shape,
+          [stride[1], stride[2]], pad as 'valid' | 'same')];
+    }
     case 'depthwiseConv2d': {
       const stride = getParamValue('strides', node, tensorMap) as number[];
       const pad = getParamValue('pad', node, tensorMap);

@@ -24,13 +24,13 @@ import * as basicMath from './op_list/basic_math.json';
 import * as convolution from './op_list/convolution.json';
 import * as creation from './op_list/creation.json';
 import * as graph from './op_list/graph.json';
+import * as image from './op_list/image.json';
 import * as logical from './op_list/logical.json';
 import * as matrices from './op_list/matrices.json';
 import * as normalization from './op_list/normalization.json';
 import * as reduction from './op_list/reduction.json';
 import * as sliceJoin from './op_list/slice_join.json';
 import * as transformation from './op_list/transformation.json';
-import * as image from './op_list/image.json';
 import {Graph, Node, OpMapper} from './types';
 
 const CONTROL_FLOW_OPS = ['Switch', 'Merge', 'Enter', 'Exit', 'Next'];
@@ -52,8 +52,7 @@ export class OperationMapper {
       ...(logical as {}) as OpMapper[], ...(graph as {}) as OpMapper[],
       ...(matrices as {}) as OpMapper[], ...(normalization as {}) as OpMapper[],
       ...(reduction as {}) as OpMapper[], ...(sliceJoin as {}) as OpMapper[],
-      ...(transformation as {}) as OpMapper[],
-      ...(image as {}) as OpMapper[]
+      ...(transformation as {}) as OpMapper[], ...(image as {}) as OpMapper[]
     ];
     this.opMappers = mappersJson.reduce<{[key: string]: OpMapper}>(
         (map, mapper: OpMapper) => {
@@ -85,6 +84,8 @@ export class OperationMapper {
     Object.keys(nodes).forEach(key => {
       const node = nodes[key];
       node.inputNames.forEach(name => {
+        const strigInd = name.split(':');
+        if (strigInd.length === 2) name = strigInd[0];
         node.inputs.push(nodes[name]);
         nodes[name].children.push(node);
       });
