@@ -51,12 +51,15 @@ export let executeOp: OpExecutor = (node: Node, tensorMap: NamedTensorsMap,
           getParamValue('shape', node, tensorMap, context) as number[])];
     }
     case 'pad': {
+      let c =
+          getParamValue('constantValue', node, tensorMap, context) as number;
+      if (c === -Infinity) c = -1000;
       return [tfc.pad(
           getParamValue('x', node, tensorMap, context) as tfc.Tensor,
           split(
               getParamValue('padding', node, tensorMap, context) as number[],
               2) as Array<[number, number]>,
-          getParamValue('constantValue', node, tensorMap, context) as number)];
+          c)];
     }
     default:
       throw TypeError(`Node type ${node.op} is not implemented`);

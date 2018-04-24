@@ -187,7 +187,7 @@ export class OperationMapper {
       attrs: {[key: string]: tensorflow.IAttrValue}, name: string,
       def: number): number {
     const param = attrs[name];
-    return (param ? ((param.f !== undefined) ? param.f : param.i) : def) as
+    return (param ? ((param.i !== undefined) ? param.i : param.f) : def) as
         number;
   }
   private getDtypeParam(
