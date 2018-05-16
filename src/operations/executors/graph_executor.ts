@@ -37,6 +37,10 @@ export let executeOp: OpExecutor = (node: Node, tensorMap: NamedTensorsMap,
       return [getTensor(node.name, tensorMap, context) || def];
     case 'identity':
       return [getParamValue('x', node, tensorMap, context) as tfc.Tensor];
+    case 'snapshot':
+      const snapshot =
+          (getParamValue('x', node, tensorMap, context) as tfc.Tensor);
+      return [snapshot.clone()];
     case 'shape':
       return [tfc.tensor1d(
           (getParamValue('x', node, tensorMap, context) as tfc.Tensor).shape,
